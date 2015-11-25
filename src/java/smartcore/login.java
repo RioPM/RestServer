@@ -37,7 +37,7 @@ public class login {
         }
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:C:\\Users\\Rio\\Dropbox\\UPC\\PTI\\Projecte\\pti.sqlite");
+            connection = DriverManager.getConnection("jdbc:sqlite:/home/rio/NetBeansProjects/pti.sqlite");
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("select count (*) as total from users where username = \""+ username +"\" and  password = \""+ password +"\"");
             
@@ -63,7 +63,7 @@ public class login {
                 System.err.println(e.getMessage());
             }
         }
-        return 0;
+        return -1;
     }
     
 }
