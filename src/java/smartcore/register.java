@@ -40,7 +40,7 @@ public class register {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:/home/rio/NetBeansProjects/pti.sqlite");
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select count (*) as total from users where username = \""+ user +"\"");
+            ResultSet rs = statement.executeQuery("select count (*) as total from users where username = \""+ user +"\" and  password = \""+ password +"\"");
             
             if("1".equals(rs.getString("total"))) {      //Si user ja existeix a la BD
                 connection.close();
