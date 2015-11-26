@@ -19,6 +19,7 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
@@ -177,7 +178,7 @@ public class devices {
     }
     
     @DELETE
-    public String deletedevice(@QueryParam("user") String user, @QueryParam("name") String name, @QueryParam("type") int type) {
+    public String deletedevice(@PathParam("user") String user, @PathParam("name") String name, @PathParam("type") int type) {
         return Integer.toString($deletedevice(user,name,type));
     }
     
