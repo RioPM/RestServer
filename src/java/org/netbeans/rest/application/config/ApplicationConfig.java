@@ -31,6 +31,8 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(smartcore.devices.class);
         resources.add(smartcore.login.class);
+        resources.add(smartcore.register.class);
+        resources.add(smartcore.state.class);
     }
     
 }

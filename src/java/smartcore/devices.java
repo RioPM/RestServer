@@ -178,7 +178,7 @@ public class devices {
     }
     
     @DELETE
-    public String deletedevice(@PathParam("user") String user, @PathParam("name") String name, @PathParam("type") int type) {
+    public String deletedevice(@FormParam("user") String user, @FormParam("name") String name, @FormParam("type") int type) {
         return Integer.toString($deletedevice(user,name,type));
     }
     
