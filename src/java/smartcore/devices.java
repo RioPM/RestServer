@@ -88,11 +88,11 @@ public class devices {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:/home/rio/NetBeansProjects/pti.sqlite");
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select name,type,state from devices where user = \""+ username +"\"");
+            ResultSet rs = statement.executeQuery("select id, name,type,state from devices where user = \""+ username +"\"");
             
             while (rs.next()) {
-                if (result == null) result = rs.getString("name") + " " + rs.getString("type") + " " + rs.getString("state") + "\n";
-                else result += (rs.getString("name") + " " + rs.getString("type") + " " + rs.getString("state") + "\n");
+                if (result == null) result = rs.getString("id") + " " + rs.getString("name") + " " + rs.getString("type") + " " + rs.getString("state") + "\n";
+                else result += (rs.getString("id") + " " + rs.getString("name") + " " + rs.getString("type") + " " + rs.getString("state") + "\n");
             }
             connection.close();
         }
@@ -138,9 +138,10 @@ public class devices {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:/home/rio/NetBeansProjects/pti.sqlite");
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select count (*) as size from devices");
-            int size = rs.getInt("size");
-            String id = String.valueOf(size+1);
+            /*ResultSet rs = statement.executeQuery("select count (*) as size from devices");
+            int size = rs.getInt("size");*/
+            ResultSet rs = statement.executeQuery("select id as newID from devices order by id desc limit 1");
+            int id = rs.getInt("newID");
             String update = "error";
             /*update = "INSERT INTO devices values ( '"+ 
                                     id +"','"+
@@ -149,14 +150,13 @@ public class devices {
                                     state +"','"+                    
                                     "\"" + user + "\"" +"','"+"');";*/
             update = "INSERT INTO devices VALUES ('" +
-                                    (size+1) + "','" +
+                                    (id+1) + "','" +
                                     name + "','" +
                                     type + "','" + 
                                     state + "','" +                    
                                     user + "');";
             System.out.println(update);
             statement.executeUpdate(update);
-            result = size+2;
             connection.close();
             if (update.equals("error")) return 0;
             else return 1;
@@ -177,44 +177,4 @@ public class devices {
         return result;
     }
     
-    @DELETE
-    public String deletedevice(@FormParam("user") String user, @FormParam("name") String name, @FormParam("type") int type) {
-        return Integer.toString($deletedevice(user,name,type));
-    }
-    
-    int $deletedevice(String user, String name, int type) {
-        int result = -1;
-        try {
-            Class.forName("org.sqlite.JDBC");
-        }
-        catch (ClassNotFoundException e){
-            System.err.println(e.getMessage());
-        }
-        Connection connection = null;
-        try {
-            connection = DriverManager.getConnection("jdbc:sqlite:/home/rio/NetBeansProjects/pti.sqlite");
-            Statement statement = connection.createStatement();
-            String update = "error";
-            update = "DELETE FROM devices WHERE user = \""+ user +"\"" + " and name = \"" + name + "\"";
-            System.out.println(update);
-            statement.executeUpdate(update);
-            connection.close();
-            if (update.equals("error")) return 0;
-            else return 1;
-        }
-        catch(SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        finally {
-            try {
-                if (connection != null)
-                    connection.close();
-            }
-            catch (SQLException e) {
-                //Error en tancar la connexio
-                System.err.println(e.getMessage());
-            }
-        }
-        return result;
-    }
 }
