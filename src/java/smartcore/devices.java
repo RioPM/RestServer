@@ -159,7 +159,7 @@ public class devices {
             statement.executeUpdate(update);
             connection.close();
             if (update.equals("error")) return 0;
-            else return 1;
+            else return id+1;
         }
         catch(SQLException e) {
             System.err.println(e.getMessage());
