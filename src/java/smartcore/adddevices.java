@@ -21,15 +21,15 @@ import javax.ws.rs.Path;
  */
 
 @Stateless
-@Path("/delete")
-public class delete {
+@Path("/adddevices")
+public class adddevices {
     
     @POST
-    public String deletedevice(@FormParam("user") String user, @FormParam("name") String name, @FormParam("type") int type) {
-        return Integer.toString($deletedevice(user,name,type));
+    public String adddevice(@FormParam("user") String user, @FormParam("name") String name, @FormParam("type") int type, @FormParam("state") int state) {
+        return String.valueOf($adddevice(user,name,type,state));
     }
     
-    int $deletedevice(String user, String name, int type) {
+    int $adddevice(String user, String name, int type, int state) {
         int result = -1;
         try {
             Class.forName("org.sqlite.JDBC");
@@ -41,15 +41,24 @@ public class delete {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:/home/rio/Downloads/pti.sqlite");
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("select id as userid from users where username = \""+ user +"\"");
+            ResultSet rs = statement.executeQuery("select id as newID from devices order by id desc limit 1");
+            int id = rs.getInt("newID");
+            rs = statement.executeQuery("select id as userid from users where username = \""+ user +"\"");
             int userid = rs.getInt("userid");
             String update = "error";
-            update = "DELETE FROM devices WHERE userid = \""+ userid +"\"" + " and description = \"" + name + "\"";
+            boolean activated = true;
+            update = "INSERT INTO devices VALUES ('" +
+                                    (id+1) + "','" +
+                                    userid + "','" +
+                                    name + "','" +
+                                    activated + "','" +
+                                    state + "','" +
+                                    type + "');";
             System.out.println(update);
             statement.executeUpdate(update);
             connection.close();
             if (update.equals("error")) return 0;
-            else return 1;
+            else return id+1;
         }
         catch(SQLException e) {
             System.err.println(e.getMessage());
@@ -66,4 +75,5 @@ public class delete {
         }
         return result;
     }
+    
 }

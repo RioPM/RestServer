@@ -29,6 +29,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(smartcore.adddevices.class);
         resources.add(smartcore.delete.class);
         resources.add(smartcore.devices.class);
         resources.add(smartcore.getdevices.class);
