@@ -32,6 +32,7 @@ public class ApplicationConfig extends Application {
         resources.add(smartcore.adddevices.class);
         resources.add(smartcore.delete.class);
         resources.add(smartcore.devices.class);
+        resources.add(smartcore.devicestate.class);
         resources.add(smartcore.getdevices.class);
         resources.add(smartcore.login.class);
         resources.add(smartcore.register.class);
